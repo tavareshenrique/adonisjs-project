@@ -3,11 +3,13 @@
 const Project = use('App/Models/Project')
 
 class ProjectController {
-  async index ({ request, response, view }) {
+  async index ({ request }) {
+    const { page } = request.get()
+
     const projects = await Project.query()
       // .select('id', 'title', 'description', 'created_at', 'updated_at')
       .with('user')
-      .fetch()
+      .paginate(page) // .fetch()
 
     return projects
   }
